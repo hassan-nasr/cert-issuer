@@ -1,7 +1,11 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 maintainer yancy ribbens "yribbens@credly.com"
+RUN apt update;
+RUN apt install -y software-properties-common
+RUN apt update
+RUN add-apt-repository ppa:deadsnakes/ppa   
 
-RUN apt-get update -qq && apt-get install -y git wget build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils python3 libboost-all-dev libminiupnpc-dev libzmq3-dev python3-pip locales vim python3.6 python3.6-dev uwsgi uwsgi-src uuid-dev libcap-dev libpcre3-dev python-pip python-dev nginx netcat
+RUN apt-get update -qq && apt-get install -y git wget build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils python3 libboost-all-dev libminiupnpc-dev libzmq3-dev python3-pip locales vim python3.7 python3.7-dev uwsgi uwsgi-src uuid-dev libcap-dev libpcre3-dev python3-pip python-dev nginx netcat
 
 # Checkout bitcoin source
 RUN mkdir /bitcoin-source
@@ -15,6 +19,9 @@ WORKDIR /bitcoin-source/db-4.8.30.NC/build_unix
 RUN mkdir -p build
 RUN BDB_PREFIX=$(pwd)/build
 RUN ../dist/configure --disable-shared --enable-cxx --with-pic --prefix=$BDB_PREFIX
+RUN ls -l * 
+RUN sed -i 's/__atomic_compare_exchange/__atomic_compare_exchange_db/g' ../dbinc/atomic.h
+
 RUN make install
 
 # install bitcoin 0.16.3
@@ -50,11 +57,12 @@ RUN pip3 install -r requirements.txt
 RUN sed -i.bak "s/<issuing-address>/$ISSUER/g" /etc/cert-issuer/conf.ini
 
 # configure wsgi
-ENV PYTHON python3.6
+ENV PYTHON python3.7
+RUN apt install -y python3.7-distutils
 WORKDIR /root
-RUN uwsgi --build-plugin "/usr/src/uwsgi/plugins/python python36"
-RUN cp /root/python36_plugin.so /cert-issuer
-RUN chmod 644 /cert-issuer/python36_plugin.so
+RUN uwsgi --build-plugin "/usr/src/uwsgi/plugins/python python37"
+RUN cp /root/python37_plugin.so /cert-issuer
+RUN chmod 644 /cert-issuer/python37_plugin.so
 RUN virtualenv -p python3 venv
 RUN pip3 install uwsgi flask
 

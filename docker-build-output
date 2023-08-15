@@ -1,0 +1,744 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile.web
+#1 transferring dockerfile: 2.88kB done
+#1 DONE 0.0s
+
+#2 [internal] load .dockerignore
+#2 transferring context: 67B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/ubuntu:20.04
+#3 DONE 0.6s
+
+#4 [ 1/46] FROM docker.io/library/ubuntu:20.04@sha256:33a5cc25d22c45900796a1aca487ad7a7cb09f09ea00b779e3b2026b4fc2faba
+#4 DONE 0.0s
+
+#5 [13/46] RUN mkdir -p build
+#5 CACHED
+
+#6 [ 5/46] RUN add-apt-repository ppa:deadsnakes/ppa
+#6 CACHED
+
+#7 [ 6/46] RUN apt-get update -qq && apt-get install -y git wget build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils python3 libboost-all-dev libminiupnpc-dev libzmq3-dev python3-pip locales vim python3.7 python3.7-dev uwsgi uwsgi-src uuid-dev libcap-dev libpcre3-dev python3-pip python-dev nginx netcat
+#7 CACHED
+
+#8 [ 7/46] RUN mkdir /bitcoin-source
+#8 CACHED
+
+#9 [11/46] RUN tar -xvf db-4.8.30.NC.tar.gz
+#9 CACHED
+
+#10 [ 9/46] RUN git clone https://github.com/bitcoin/bitcoin.git
+#10 CACHED
+
+#11 [14/46] RUN BDB_PREFIX=$(pwd)/build
+#11 CACHED
+
+#12 [ 3/46] RUN apt install -y software-properties-common
+#12 CACHED
+
+#13 [12/46] WORKDIR /bitcoin-source/db-4.8.30.NC/build_unix
+#13 CACHED
+
+#14 [16/46] RUN ls -l *
+#14 CACHED
+
+#15 [19/46] WORKDIR /bitcoin-source/bitcoin
+#15 CACHED
+
+#16 [15/46] RUN ../dist/configure --disable-shared --enable-cxx --with-pic --prefix=$BDB_PREFIX
+#16 CACHED
+
+#17 [10/46] RUN wget http://download.oracle.com/berkeley-db/db-4.8.30.NC.tar.gz
+#17 CACHED
+
+#18 [20/46] RUN git checkout tags/v0.16.3
+#18 CACHED
+
+#19 [ 2/46] RUN apt update;
+#19 CACHED
+
+#20 [ 4/46] RUN apt update
+#20 CACHED
+
+#21 [ 8/46] WORKDIR /bitcoin-source
+#21 CACHED
+
+#22 [17/46] RUN sed -i 's/__atomic_compare_exchange/__atomic_compare_exchange_db/g' ../dbinc/atomic.h
+#22 CACHED
+
+#23 [21/46] RUN ./autogen.sh
+#23 CACHED
+
+#24 [18/46] RUN make install
+#24 CACHED
+
+#25 [22/46] RUN ./configure CPPFLAGS="-I${BDB_PREFIX}/include/ -O2" LDFLAGS="-L${BDB_PREFIX}/lib/" --without-gui
+#25 CACHED
+
+#26 [internal] load build context
+#26 transferring context: 8.72kB 0.0s done
+#26 DONE 0.1s
+
+#27 [23/46] RUN make
+#27 0.300 Making all in src
+#27 0.327 make[1]: Entering directory '/bitcoin-source/bitcoin/src'
+#27 0.359 make[2]: Entering directory '/bitcoin-source/bitcoin/src'
+#27 0.361   CXX      bitcoind-bitcoind.o
+#27 12.47   CXX      libbitcoin_server_a-addrdb.o
+#27 23.81   CXX      libbitcoin_server_a-addrman.o
+#27 32.34   CXX      libbitcoin_server_a-bloom.o
+#27 34.44   CXX      libbitcoin_server_a-blockencodings.o
+#27 43.29   CXX      libbitcoin_server_a-chain.o
+#27 45.00   CXX      libbitcoin_server_a-checkpoints.o
+#27 48.17   CXX      consensus/libbitcoin_server_a-tx_verify.o
+#27 51.59   CXX      libbitcoin_server_a-httprpc.o
+#27 64.55   CXX      libbitcoin_server_a-httpserver.o
+#27 79.32   CXX      libbitcoin_server_a-init.o
+#27 138.9   CXX      libbitcoin_server_a-dbwrapper.o
+#27 147.6   CXX      libbitcoin_server_a-merkleblock.o
+#27 149.5   CXX      libbitcoin_server_a-miner.o
+#27 166.8   CXX      libbitcoin_server_a-net.o
+#27 204.2   CXX      libbitcoin_server_a-net_processing.o
+#27 258.4   CXX      libbitcoin_server_a-noui.o
+#27 271.8   CXX      policy/libbitcoin_server_a-fees.o
+#27 285.0   CXX      policy/libbitcoin_server_a-policy.o
+#27 291.1   CXX      policy/libbitcoin_server_a-rbf.o
+#27 296.0   CXX      libbitcoin_server_a-pow.o
+#27 297.0   CXX      libbitcoin_server_a-rest.o
+#27 310.5   CXX      rpc/libbitcoin_server_a-blockchain.o
+#27 332.5   CXX      rpc/libbitcoin_server_a-mining.o
+#27 350.2   CXX      rpc/libbitcoin_server_a-misc.o
+#27 365.2   CXX      rpc/libbitcoin_server_a-net.o
+#27 378.6   CXX      rpc/libbitcoin_server_a-rawtransaction.o
+#27 402.3   CXX      rpc/libbitcoin_server_a-safemode.o
+#27 407.0   CXX      rpc/libbitcoin_server_a-server.o
+#27 426.6   CXX      script/libbitcoin_server_a-sigcache.o
+#27 439.1   CXX      script/libbitcoin_server_a-ismine.o
+#27 442.9   CXX      libbitcoin_server_a-timedata.o
+#27 454.1   CXX      libbitcoin_server_a-torcontrol.o
+#27 475.1   CXX      libbitcoin_server_a-txdb.o
+#27 492.8   CXX      libbitcoin_server_a-txmempool.o
+#27 512.9   CXX      libbitcoin_server_a-ui_interface.o
+#27 525.2   CXX      libbitcoin_server_a-validation.o
+#27 583.6   CXX      libbitcoin_server_a-validationinterface.o
+#27 615.9   CXX      libbitcoin_server_a-versionbits.o
+#27 617.4   AR       libbitcoin_server.a
+#27 623.9   CXX      libbitcoin_common_a-base58.o
+#27 627.5   CXX      libbitcoin_common_a-bech32.o
+#27 628.5   CXX      libbitcoin_common_a-chainparams.o
+#27 637.7   CXX      libbitcoin_common_a-coins.o
+#27 639.4   CXX      libbitcoin_common_a-compressor.o
+#27 641.0   CXX      libbitcoin_common_a-core_read.o
+#27 650.5   CXX      libbitcoin_common_a-core_write.o
+#27 660.3   CXX      libbitcoin_common_a-key.o
+#27 660.9 key.cpp: In function 'int ec_privkey_import_der(const secp256k1_context*, unsigned char*, const unsigned char*, size_t)':
+#27 660.9 key.cpp:51:23: warning: comparison of integer expressions of different signedness: 'long int' and 'size_t' {aka 'long unsigned int'} [-Wsign-compare]
+#27 660.9    51 |     if (end - privkey < lenb) {
+#27 660.9       |         ~~~~~~~~~~~~~~^~~~~~
+#27 660.9 key.cpp:57:23: warning: comparison of integer expressions of different signedness: 'long int' and 'size_t' {aka 'long unsigned int'} [-Wsign-compare]
+#27 660.9    57 |     if (end - privkey < len) {
+#27 660.9       |         ~~~~~~~~~~~~~~^~~~~
+#27 660.9 key.cpp:71:37: warning: comparison of integer expressions of different signedness: 'long int' and 'size_t' {aka 'long unsigned int'} [-Wsign-compare]
+#27 660.9    71 |     if (oslen > 32 || end - privkey < oslen) {
+#27 660.9       |                       ~~~~~~~~~~~~~~^~~~~~~
+#27 661.5   CXX      libbitcoin_common_a-keystore.o
+#27 668.7   CXX      libbitcoin_common_a-netaddress.o
+#27 671.4   CXX      libbitcoin_common_a-netbase.o
+#27 679.4   CXX      policy/libbitcoin_common_a-feerate.o
+#27 680.6   CXX      libbitcoin_common_a-protocol.o
+#27 684.9 In file included from /usr/include/string.h:495,
+#27 684.9                  from ./serialize.h:20,
+#27 684.9                  from ./netaddress.h:13,
+#27 684.9                  from ./protocol.h:13,
+#27 684.9                  from protocol.cpp:6:
+#27 684.9 In function 'char* strncpy(char*, const char*, size_t)',
+#27 684.9     inlined from 'CMessageHeader::CMessageHeader(const unsigned char (&)[4], const char*, unsigned int)' at protocol.cpp:89:12:
+#27 684.9 /usr/include/x86_64-linux-gnu/bits/string_fortified.h:106:34: warning: 'char* __builtin_strncpy(char*, const char*, long unsigned int)' specified bound 12 equals destination size [-Wstringop-truncation]
+#27 684.9   106 |   return __builtin___strncpy_chk (__dest, __src, __len, __bos (__dest));
+#27 684.9       |          ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#27 686.6   CXX      libbitcoin_common_a-scheduler.o
+#27 694.9   CXX      script/libbitcoin_common_a-sign.o
+#27 701.3   CXX      script/libbitcoin_common_a-standard.o
+#27 708.9   CXX      libbitcoin_common_a-warnings.o
+#27 715.0   AR       libbitcoin_common.a
+#27 715.4 make[3]: Entering directory '/bitcoin-source/bitcoin/src/univalue'
+#27 715.5   CXX      lib/libunivalue_la-univalue.lo
+#27 718.4   CXX      lib/libunivalue_la-univalue_get.lo
+#27 719.2   CXX      lib/libunivalue_la-univalue_read.lo
+#27 721.6   CXX      lib/libunivalue_la-univalue_write.lo
+#27 722.5   CXXLD    libunivalue.la
+#27 722.7 make[3]: Leaving directory '/bitcoin-source/bitcoin/src/univalue'
+#27 722.7   CXX      support/libbitcoin_util_a-lockedpool.o
+#27 723.8   CXX      libbitcoin_util_a-chainparamsbase.o
+#27 731.6   CXX      libbitcoin_util_a-clientversion.o
+#27 732.6   CXX      compat/libbitcoin_util_a-glibc_sanity.o
+#27 732.7   CXX      compat/libbitcoin_util_a-glibcxx_sanity.o
+#27 733.2   CXX      compat/libbitcoin_util_a-strnlen.o
+#27 733.2   CXX      libbitcoin_util_a-fs.o
+#27 734.9   CXX      libbitcoin_util_a-random.o
+#27 740.1   CXX      rpc/libbitcoin_util_a-protocol.o
+#27 747.6   CXX      rpc/libbitcoin_util_a-util.o
+#27 752.4   CXX      support/libbitcoin_util_a-cleanse.o
+#27 752.5   CXX      libbitcoin_util_a-sync.o
+#27 756.3   CXX      libbitcoin_util_a-threadinterrupt.o
+#27 756.9   CXX      libbitcoin_util_a-util.o
+#27 770.4   CXX      libbitcoin_util_a-utilmoneystr.o
+#27 771.6   CXX      libbitcoin_util_a-utilstrencodings.o
+#27 773.5   CXX      libbitcoin_util_a-utiltime.o
+#27 784.2   AR       libbitcoin_util.a
+#27 784.5   CXX      wallet/libbitcoin_wallet_a-crypter.o
+#27 792.8   CXX      wallet/libbitcoin_wallet_a-db.o
+#27 808.2   CXX      wallet/libbitcoin_wallet_a-feebumper.o
+#27 819.4   CXX      wallet/libbitcoin_wallet_a-fees.o
+#27 827.1   CXX      wallet/libbitcoin_wallet_a-init.o
+#27 843.1   CXX      wallet/libbitcoin_wallet_a-rpcdump.o
+#27 869.5   CXX      wallet/libbitcoin_wallet_a-rpcwallet.o
+#27 901.7   CXX      wallet/libbitcoin_wallet_a-wallet.o
+#27 942.9   CXX      wallet/libbitcoin_wallet_a-walletdb.o
+#27 960.5   CXX      wallet/libbitcoin_wallet_a-walletutil.o
+#27 964.0   AR       libbitcoin_wallet.a
+#27 966.0   CXX      zmq/libbitcoin_zmq_a-zmqabstractnotifier.o
+#27 969.9   CXX      zmq/libbitcoin_zmq_a-zmqnotificationinterface.o
+#27 976.0   CXX      zmq/libbitcoin_zmq_a-zmqpublishnotifier.o
+#27 982.3   AR       libbitcoin_zmq.a
+#27 982.4   CXX      libbitcoin_consensus_a-arith_uint256.o
+#27 983.1   CXX      consensus/libbitcoin_consensus_a-merkle.o
+#27 984.2   CXX      libbitcoin_consensus_a-hash.o
+#27 984.9   CXX      primitives/libbitcoin_consensus_a-block.o
+#27 986.5   CXX      primitives/libbitcoin_consensus_a-transaction.o
+#27 989.2   CXX      libbitcoin_consensus_a-pubkey.o
+#27 989.8   CXX      script/libbitcoin_consensus_a-bitcoinconsensus.o
+#27 991.8   CXX      script/libbitcoin_consensus_a-interpreter.o
+#27 996.9   CXX      script/libbitcoin_consensus_a-script.o
+#27 997.9   CXX      script/libbitcoin_consensus_a-script_error.o
+#27 998.0   CXX      libbitcoin_consensus_a-uint256.o
+#27 998.3   CXX      libbitcoin_consensus_a-utilstrencodings.o
+#27 1000.1   AR       libbitcoin_consensus.a
+#27 1000.2   CXX      crypto/libbitcoin_crypto_a-aes.o
+#27 1000.7   CXX      crypto/libbitcoin_crypto_a-chacha20.o
+#27 1000.8   CXX      crypto/libbitcoin_crypto_a-hmac_sha256.o
+#27 1001.0   CXX      crypto/libbitcoin_crypto_a-hmac_sha512.o
+#27 1001.1   CXX      crypto/libbitcoin_crypto_a-ripemd160.o
+#27 1001.9   CXX      crypto/libbitcoin_crypto_a-sha1.o
+#27 1002.3   CXX      crypto/libbitcoin_crypto_a-sha256.o
+#27 1003.1   CXX      crypto/libbitcoin_crypto_a-sha512.o
+#27 1003.8   CXX      crypto/libbitcoin_crypto_a-sha256_sse4.o
+#27 1003.8   AR       crypto/libbitcoin_crypto.a
+#27 1003.9   CXX      leveldb/db/libleveldb_a-builder.o
+#27 1004.4   CXX      leveldb/db/libleveldb_a-c.o
+#27 1005.2   CXX      leveldb/db/libleveldb_a-dbformat.o
+#27 1005.7   CXX      leveldb/db/libleveldb_a-db_impl.o
+#27 1009.4   CXX      leveldb/db/libleveldb_a-db_iter.o
+#27 1010.2   CXX      leveldb/db/libleveldb_a-dumpfile.o
+#27 1011.3   CXX      leveldb/db/libleveldb_a-filename.o
+#27 1011.9   CXX      leveldb/db/libleveldb_a-log_reader.o
+#27 1012.4   CXX      leveldb/db/libleveldb_a-log_writer.o
+#27 1012.7   CXX      leveldb/db/libleveldb_a-memtable.o
+#27 1013.3   CXX      leveldb/db/libleveldb_a-repair.o
+#27 1015.6   CXX      leveldb/db/libleveldb_a-table_cache.o
+#27 1016.1   CXX      leveldb/db/libleveldb_a-version_edit.o
+#27 1017.2   CXX      leveldb/db/libleveldb_a-version_set.o
+#27 1020.6   CXX      leveldb/db/libleveldb_a-write_batch.o
+#27 1021.1   CXX      leveldb/table/libleveldb_a-block_builder.o
+#27 1021.6   CXX      leveldb/table/libleveldb_a-block.o
+#27 1022.3   CXX      leveldb/table/libleveldb_a-filter_block.o
+#27 1022.9   CXX      leveldb/table/libleveldb_a-format.o
+#27 1023.3   CXX      leveldb/table/libleveldb_a-iterator.o
+#27 1023.6   CXX      leveldb/table/libleveldb_a-merger.o
+#27 1024.0   CXX      leveldb/table/libleveldb_a-table_builder.o
+#27 1024.6   CXX      leveldb/table/libleveldb_a-table.o
+#27 1025.1   CXX      leveldb/table/libleveldb_a-two_level_iterator.o
+#27 1025.9   CXX      leveldb/util/libleveldb_a-arena.o
+#27 1026.4   CXX      leveldb/util/libleveldb_a-bloom.o
+#27 1026.7   CXX      leveldb/util/libleveldb_a-cache.o
+#27 1027.2   CXX      leveldb/util/libleveldb_a-coding.o
+#27 1027.6   CXX      leveldb/util/libleveldb_a-comparator.o
+#27 1028.0   CXX      leveldb/util/libleveldb_a-crc32c.o
+#27 1028.2   CXX      leveldb/util/libleveldb_a-env.o
+#27 1028.7   CXX      leveldb/util/libleveldb_a-env_posix.o
+#27 1030.3   CXX      leveldb/util/libleveldb_a-filter_policy.o
+#27 1030.5   CXX      leveldb/util/libleveldb_a-hash.o
+#27 1030.9   CXX      leveldb/util/libleveldb_a-histogram.o
+#27 1031.2   CXX      leveldb/util/libleveldb_a-logging.o
+#27 1031.4 leveldb/util/logging.cc: In function 'bool leveldb::ConsumeDecimalNumber(leveldb::Slice*, uint64_t*)':
+#27 1031.4 leveldb/util/logging.cc:58:40: warning: comparison of integer expressions of different signedness: 'const int' and 'long unsigned int' [-Wsign-compare]
+#27 1031.4    58 |           (v == kMaxUint64/10 && delta > kMaxUint64%10)) {
+#27 1031.4       |                                  ~~~~~~^~~~~~~~~~~~~~~
+#27 1031.5   CXX      leveldb/util/libleveldb_a-options.o
+#27 1031.7   CXX      leveldb/util/libleveldb_a-status.o
+#27 1032.1   CXX      leveldb/port/libleveldb_a-port_posix.o
+#27 1032.3 leveldb/port/port_posix.cc: In function 'bool leveldb::port::HasAcceleratedCRC32C()':
+#27 1032.3 leveldb/port/port_posix.cc:60:15: warning: 'ecx' may be used uninitialized in this function [-Wmaybe-uninitialized]
+#27 1032.3    60 |   return (ecx & (1 << 20)) != 0;
+#27 1032.3       |          ~~~~~^~~~~~~~~~~~
+#27 1032.4   AR       leveldb/libleveldb.a
+#27 1032.5   CXX      leveldb/port/libleveldb_sse42_a-port_posix_sse.o
+#27 1032.8   AR       leveldb/libleveldb_sse42.a
+#27 1032.8   CXX      leveldb/helpers/memenv/libmemenv_a-memenv.o
+#27 1034.2   AR       leveldb/libmemenv.a
+#27 1034.2 make[3]: Entering directory '/bitcoin-source/bitcoin/src/secp256k1'
+#27 1034.2 gcc -I. -g -O2 -Wall -Wextra -Wno-unused-function -c src/gen_context.c -o gen_context.o
+#27 1036.0 gcc gen_context.o -o gen_context
+#27 1036.1 ./gen_context
+#27 1036.1   CC       src/libsecp256k1_la-secp256k1.lo
+#27 1038.6   CCLD     libsecp256k1.la
+#27 1038.7 make[3]: Leaving directory '/bitcoin-source/bitcoin/src/secp256k1'
+#27 1038.7   CXXLD    bitcoind
+#27 1045.5   CXX      bitcoin_cli-bitcoin-cli.o
+#27 1055.3   CXX      rpc/libbitcoin_cli_a-client.o
+#27 1060.3   AR       libbitcoin_cli.a
+#27 1060.3   CXXLD    bitcoin-cli
+#27 1060.9   CXX      bitcoin_tx-bitcoin-tx.o
+#27 1076.5   CXXLD    bitcoin-tx
+#27 1077.4 Generated test/data/script_tests.json.h
+#27 1077.4 Generated test/data/base58_keys_valid.json.h
+#27 1077.4 Generated test/data/base58_encode_decode.json.h
+#27 1077.4 Generated test/data/base58_keys_invalid.json.h
+#27 1077.4 Generated test/data/tx_invalid.json.h
+#27 1077.5 Generated test/data/tx_valid.json.h
+#27 1077.5 Generated test/data/sighash.json.h
+#27 1077.5   CXX      test/test_bitcoin-arith_uint256_tests.o
+#27 1097.6   CXX      test/test_bitcoin-addrman_tests.o
+#27 1110.8   CXX      test/test_bitcoin-amount_tests.o
+#27 1121.1   CXX      test/test_bitcoin-allocator_tests.o
+#27 1130.8   CXX      test/test_bitcoin-base32_tests.o
+#27 1139.1   CXX      test/test_bitcoin-base58_tests.o
+#27 1150.5   CXX      test/test_bitcoin-base64_tests.o
+#27 1159.2   CXX      test/test_bitcoin-bech32_tests.o
+#27 1168.8   CXX      test/test_bitcoin-bip32_tests.o
+#27 1178.9   CXX      test/test_bitcoin-blockchain_tests.o
+#27 1197.5   CXX      test/test_bitcoin-blockencodings_tests.o
+#27 1210.6   CXX      test/test_bitcoin-bloom_tests.o
+#27 1225.6   CXX      test/test_bitcoin-bswap_tests.o
+#27 1234.3   CXX      test/test_bitcoin-checkqueue_tests.o
+#27 1248.3   CXX      test/test_bitcoin-coins_tests.o
+#27 1261.9   CXX      test/test_bitcoin-compress_tests.o
+#27 1270.2   CXX      test/test_bitcoin-crypto_tests.o
+#27 1284.0   CXX      test/test_bitcoin-cuckoocache_tests.o
+#27 1295.2   CXX      test/test_bitcoin-DoS_tests.o
+#27 1306.8   CXX      test/test_bitcoin-getarg_tests.o
+#27 1318.2   CXX      test/test_bitcoin-hash_tests.o
+#27 1328.7   CXX      test/test_bitcoin-key_tests.o
+#27 1340.5   CXX      test/test_bitcoin-limitedmap_tests.o
+#27 1349.1   CXX      test/test_bitcoin-dbwrapper_tests.o
+#27 1360.8   CXX      test/test_bitcoin-main_tests.o
+#27 1372.0   CXX      test/test_bitcoin-mempool_tests.o
+#27 1385.0   CXX      test/test_bitcoin-merkle_tests.o
+#27 1393.7   CXX      test/test_bitcoin-merkleblock_tests.o
+#27 1403.1   CXX      test/test_bitcoin-miner_tests.o
+#27 1417.5   CXX      test/test_bitcoin-multisig_tests.o
+#27 1429.3   CXX      test/test_bitcoin-net_tests.o
+#27 1440.3   CXX      test/test_bitcoin-netbase_tests.o
+#27 1452.9   CXX      test/test_bitcoin-pmt_tests.o
+#27 1463.2   CXX      test/test_bitcoin-policyestimator_tests.o
+#27 1473.7   CXX      test/test_bitcoin-pow_tests.o
+#27 1483.9   CXX      test/test_bitcoin-prevector_tests.o
+#27 1493.7   CXX      test/test_bitcoin-raii_event_tests.o
+#27 1503.1   CXX      test/test_bitcoin-random_tests.o
+#27 1512.7   CXX      test/test_bitcoin-reverselock_tests.o
+#27 1522.4   CXX      test/test_bitcoin-rpc_tests.o
+#27 1542.6   CXX      test/test_bitcoin-sanity_tests.o
+#27 1551.4   CXX      test/test_bitcoin-scheduler_tests.o
+#27 1562.6   CXX      test/test_bitcoin-script_P2SH_tests.o
+#27 1575.9   CXX      test/test_bitcoin-script_tests.o
+#27 1641.5   CXX      test/test_bitcoin-script_standard_tests.o
+#27 1657.7   CXX      test/test_bitcoin-scriptnum_tests.o
+#27 1667.0   CXX      test/test_bitcoin-serialize_tests.o
+#27 1681.5   CXX      test/test_bitcoin-sighash_tests.o
+#27 1692.8   CXX      test/test_bitcoin-sigopcount_tests.o
+#27 1703.7   CXX      test/test_bitcoin-skiplist_tests.o
+#27 1714.5   CXX      test/test_bitcoin-streams_tests.o
+#27 1724.4   CXX      test/test_bitcoin-test_bitcoin.o
+#27 1736.5   CXX      test/test_bitcoin-test_bitcoin_main.o
+#27 1740.7   CXX      test/test_bitcoin-timedata_tests.o
+#27 1749.7   CXX      test/test_bitcoin-torcontrol_tests.o
+#27 1769.8   CXX      test/test_bitcoin-transaction_tests.o
+#27 1789.2   CXX      test/test_bitcoin-txvalidation_tests.o
+#27 1798.9   CXX      test/test_bitcoin-txvalidationcache_tests.o
+#27 1810.5   CXX      test/test_bitcoin-uint256_tests.o
+#27 1823.5   CXX      test/test_bitcoin-util_tests.o
+#27 1845.3   CXX      test/test_bitcoin-validation_block_tests.o
+#27 1856.0   CXX      test/test_bitcoin-versionbits_tests.o
+#27 1866.9   CXX      wallet/test/test_test_bitcoin-wallet_test_fixture.o
+#27 1878.6   CXX      wallet/test/test_test_bitcoin-accounting_tests.o
+#27 1891.2   CXX      wallet/test/test_test_bitcoin-wallet_tests.o
+#27 1914.4   CXX      wallet/test/test_test_bitcoin-crypto_tests.o
+#27 1925.2   CXXLD    test/test_bitcoin
+#27 1937.5   CXX      bench/bench_bitcoin-bench_bitcoin.o
+#27 1944.6   CXX      bench/bench_bitcoin-bench.o
+#27 1952.7 Generated bench/data/block413567.raw.h
+#27 1952.7   CXX      bench/bench_bitcoin-checkblock.o
+#27 1960.0   CXX      bench/bench_bitcoin-checkqueue.o
+#27 1966.7   CXX      bench/bench_bitcoin-Examples.o
+#27 1968.8   CXX      bench/bench_bitcoin-rollingbloom.o
+#27 1969.6   CXX      bench/bench_bitcoin-crypto_hash.o
+#27 1970.5   CXX      bench/bench_bitcoin-ccoins_caching.o
+#27 1974.6   CXX      bench/bench_bitcoin-mempool_eviction.o
+#27 1979.2   CXX      bench/bench_bitcoin-verify_script.o
+#27 1981.9   CXX      bench/bench_bitcoin-base58.o
+#27 1984.4   CXX      bench/bench_bitcoin-lockedpool.o
+#27 1985.1   CXX      bench/bench_bitcoin-perf.o
+#27 1985.1   CXX      bench/bench_bitcoin-prevector_destructor.o
+#27 1985.8   CXX      bench/bench_bitcoin-coin_selection.o
+#27 1993.0   CXXLD    bench/bench_bitcoin
+#27 1999.4   CXX      test/test_bitcoin_fuzzy-test_bitcoin_fuzzy.o
+#27 2008.0   CXXLD    test/test_bitcoin_fuzzy
+#27 2008.8   CXX      crypto/libbitcoinconsensus_la-aes.lo
+#27 2009.9   CXX      crypto/libbitcoinconsensus_la-chacha20.lo
+#27 2010.2   CXX      crypto/libbitcoinconsensus_la-hmac_sha256.lo
+#27 2010.7   CXX      crypto/libbitcoinconsensus_la-hmac_sha512.lo
+#27 2011.0   CXX      crypto/libbitcoinconsensus_la-ripemd160.lo
+#27 2012.7   CXX      crypto/libbitcoinconsensus_la-sha1.lo
+#27 2013.6   CXX      crypto/libbitcoinconsensus_la-sha256.lo
+#27 2015.3   CXX      crypto/libbitcoinconsensus_la-sha512.lo
+#27 2016.7   CXX      crypto/libbitcoinconsensus_la-sha256_sse4.lo
+#27 2016.9   CXX      libbitcoinconsensus_la-arith_uint256.lo
+#27 2017.9   CXX      consensus/libbitcoinconsensus_la-merkle.lo
+#27 2019.8   CXX      libbitcoinconsensus_la-hash.lo
+#27 2021.1   CXX      primitives/libbitcoinconsensus_la-block.lo
+#27 2024.1   CXX      primitives/libbitcoinconsensus_la-transaction.lo
+#27 2029.2   CXX      libbitcoinconsensus_la-pubkey.lo
+#27 2030.8   CXX      script/libbitcoinconsensus_la-bitcoinconsensus.lo
+#27 2034.7   CXX      script/libbitcoinconsensus_la-interpreter.lo
+#27 2044.8   CXX      script/libbitcoinconsensus_la-script.lo
+#27 2046.7   CXX      script/libbitcoinconsensus_la-script_error.lo
+#27 2046.8   CXX      libbitcoinconsensus_la-uint256.lo
+#27 2047.6   CXX      libbitcoinconsensus_la-utilstrencodings.lo
+#27 2051.1   CXXLD    libbitcoinconsensus.la
+#27 2051.5 make[2]: Leaving directory '/bitcoin-source/bitcoin/src'
+#27 2051.5 make[1]: Leaving directory '/bitcoin-source/bitcoin/src'
+#27 2051.5 Making all in doc/man
+#27 2051.5 make[1]: Entering directory '/bitcoin-source/bitcoin/doc/man'
+#27 2051.5 make[1]: Nothing to be done for 'all'.
+#27 2051.5 make[1]: Leaving directory '/bitcoin-source/bitcoin/doc/man'
+#27 2051.5 make[1]: Entering directory '/bitcoin-source/bitcoin'
+#27 2051.5 make[1]: Nothing to be done for 'all-am'.
+#27 2051.5 make[1]: Leaving directory '/bitcoin-source/bitcoin'
+#27 DONE 2051.7s
+
+#28 [24/46] RUN make install
+#28 0.808 Making install in src
+#28 1.793 make[1]: Entering directory '/bitcoin-source/bitcoin/src'
+#28 2.465 make[2]: Entering directory '/bitcoin-source/bitcoin/src'
+#28 2.469 make[3]: Entering directory '/bitcoin-source/bitcoin'
+#28 2.471 make[3]: Leaving directory '/bitcoin-source/bitcoin'
+#28 3.573 make[3]: Entering directory '/bitcoin-source/bitcoin/src'
+#28 3.584 make[4]: Entering directory '/bitcoin-source/bitcoin'
+#28 3.588 make[4]: Leaving directory '/bitcoin-source/bitcoin'
+#28 3.857  /usr/bin/mkdir -p '/usr/local/lib'
+#28 3.859  /bin/bash ../libtool   --mode=install /usr/bin/install -c   libbitcoinconsensus.la '/usr/local/lib'
+#28 3.887 libtool: install: /usr/bin/install -c .libs/libbitcoinconsensus.so.0.0.0 /usr/local/lib/libbitcoinconsensus.so.0.0.0
+#28 3.899 libtool: install: (cd /usr/local/lib && { ln -s -f libbitcoinconsensus.so.0.0.0 libbitcoinconsensus.so.0 || { rm -f libbitcoinconsensus.so.0 && ln -s libbitcoinconsensus.so.0.0.0 libbitcoinconsensus.so.0; }; })
+#28 3.902 libtool: install: (cd /usr/local/lib && { ln -s -f libbitcoinconsensus.so.0.0.0 libbitcoinconsensus.so || { rm -f libbitcoinconsensus.so && ln -s libbitcoinconsensus.so.0.0.0 libbitcoinconsensus.so; }; })
+#28 3.905 libtool: install: /usr/bin/install -c .libs/libbitcoinconsensus.lai /usr/local/lib/libbitcoinconsensus.la
+#28 3.908 libtool: install: /usr/bin/install -c .libs/libbitcoinconsensus.a /usr/local/lib/libbitcoinconsensus.a
+#28 3.930 libtool: install: chmod 644 /usr/local/lib/libbitcoinconsensus.a
+#28 3.936 libtool: install: /usr/bin/ranlib /usr/local/lib/libbitcoinconsensus.a
+#28 4.045 libtool: finish: PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/sbin" ldconfig -n /usr/local/lib
+#28 4.063 ----------------------------------------------------------------------
+#28 4.064 Libraries have been installed in:
+#28 4.064    /usr/local/lib
+#28 4.064 
+#28 4.064 If you ever happen to want to link against installed libraries
+#28 4.064 in a given directory, LIBDIR, you must either use libtool, and
+#28 4.064 specify the full pathname of the library, or use the '-LLIBDIR'
+#28 4.064 flag during linking and do at least one of the following:
+#28 4.064    - add LIBDIR to the 'LD_LIBRARY_PATH' environment variable
+#28 4.064      during execution
+#28 4.064    - add LIBDIR to the 'LD_RUN_PATH' environment variable
+#28 4.064      during linking
+#28 4.065    - use the ' -D__LIBTOOL_IS_A_FOOL__ ' linker flag
+#28 4.065    - have your system administrator add LIBDIR to '/etc/ld.so.conf'
+#28 4.065 
+#28 4.065 See any operating system documentation about shared libraries for
+#28 4.065 more information, such as the ld(1) and ld.so(8) manual pages.
+#28 4.065 ----------------------------------------------------------------------
+#28 4.067  /usr/bin/mkdir -p '/usr/local/bin'
+#28 4.075   /bin/bash ../libtool   --mode=install /usr/bin/install -c bitcoind bitcoin-cli bitcoin-tx test/test_bitcoin bench/bench_bitcoin '/usr/local/bin'
+#28 4.111 libtool: install: /usr/bin/install -c bitcoind /usr/local/bin/bitcoind
+#28 5.290 libtool: install: /usr/bin/install -c bitcoin-cli /usr/local/bin/bitcoin-cli
+#28 5.446 libtool: install: /usr/bin/install -c bitcoin-tx /usr/local/bin/bitcoin-tx
+#28 5.785 libtool: install: /usr/bin/install -c test/test_bitcoin /usr/local/bin/test_bitcoin
+#28 8.874 libtool: install: /usr/bin/install -c bench/bench_bitcoin /usr/local/bin/bench_bitcoin
+#28 11.31  /usr/bin/mkdir -p '/usr/local/include'
+#28 11.31  /usr/bin/install -c -m 644 script/bitcoinconsensus.h '/usr/local/include'
+#28 11.32 make[3]: Leaving directory '/bitcoin-source/bitcoin/src'
+#28 11.32 make[2]: Leaving directory '/bitcoin-source/bitcoin/src'
+#28 11.32 make[1]: Leaving directory '/bitcoin-source/bitcoin/src'
+#28 11.32 Making install in doc/man
+#28 11.33 make[1]: Entering directory '/bitcoin-source/bitcoin/doc/man'
+#28 11.33 make[2]: Entering directory '/bitcoin-source/bitcoin/doc/man'
+#28 11.33 make[2]: Nothing to be done for 'install-exec-am'.
+#28 11.33  /usr/bin/mkdir -p '/usr/local/share/man/man1'
+#28 11.39  /usr/bin/install -c -m 644 bitcoind.1 bitcoin-cli.1 bitcoin-tx.1 '/usr/local/share/man/man1'
+#28 11.41 make[2]: Leaving directory '/bitcoin-source/bitcoin/doc/man'
+#28 11.41 make[1]: Leaving directory '/bitcoin-source/bitcoin/doc/man'
+#28 11.41 make[1]: Entering directory '/bitcoin-source/bitcoin'
+#28 11.41 make[2]: Entering directory '/bitcoin-source/bitcoin'
+#28 11.41 make[2]: Nothing to be done for 'install-exec-am'.
+#28 11.42  /usr/bin/mkdir -p '/usr/local/lib/pkgconfig'
+#28 11.42  /usr/bin/install -c -m 644 libbitcoinconsensus.pc '/usr/local/lib/pkgconfig'
+#28 11.43 make[2]: Leaving directory '/bitcoin-source/bitcoin'
+#28 11.43 make[1]: Leaving directory '/bitcoin-source/bitcoin'
+#28 DONE 16.1s
+
+#29 [25/46] RUN mkdir -p ~/.bitcoin
+#29 DONE 0.6s
+
+#30 [26/46] RUN echo "rpcuser=foo\nrpcpassword=bar\nregtest=1\nrpcport=8332\nrpcallowip=127.0.0.1\nrpcconnect=127.0.0.1\n" > /root/.bitcoin/bitcoin.conf
+#30 DONE 0.4s
+
+#31 [27/46] RUN locale-gen en_US.UTF-8
+#31 0.323 /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+#31 0.334 Generating locales (this might take a while)...
+#31 0.339   en_US.UTF-8... done
+#31 2.457 Generation complete.
+#31 DONE 2.7s
+
+#32 [28/46] COPY . /cert-issuer
+#32 DONE 0.2s
+
+#33 [29/46] COPY conf_regtest.ini /etc/cert-issuer/conf.ini
+#33 DONE 0.0s
+
+#34 [30/46] RUN mkdir -p /etc/cert-issuer/
+#34 DONE 0.2s
+
+#35 [31/46] WORKDIR /cert-issuer
+#35 DONE 0.0s
+
+#36 [32/46] RUN pip3 install cert-issuer
+#36 2.016 Collecting cert-issuer
+#36 2.045   Downloading cert_issuer-3.5.0-py3-none-any.whl (51 kB)
+#36 2.105 Collecting merkletools==1.0.3
+#36 2.111   Downloading merkletools-1.0.3.tar.gz (8.3 kB)
+#36 2.618 Collecting pycoin==0.80
+#36 2.624   Downloading pycoin-0.80.tar.gz (113 kB)
+#36 2.911 Collecting mock==2.0.0
+#36 2.916   Downloading mock-2.0.0-py2.py3-none-any.whl (56 kB)
+#36 3.160 Collecting tox>=3.0.0
+#36 3.165   Downloading tox-4.6.4-py3-none-any.whl (152 kB)
+#36 3.376 Collecting lds-merkle-proof-2019>=0.1.0
+#36 3.382   Downloading lds_merkle_proof_2019-0.1.0-py3-none-any.whl (5.4 kB)
+#36 3.468 Collecting jsonschema<3.0.0
+#36 3.474   Downloading jsonschema-2.6.0-py2.py3-none-any.whl (39 kB)
+#36 3.612 Collecting connexion<3.0.0
+#36 3.640   Downloading connexion-2.14.2-py2.py3-none-any.whl (95 kB)
+#36 3.716 Collecting cert-schema>=3.2.1
+#36 3.726   Downloading cert_schema-3.4.2-py3-none-any.whl (78 kB)
+#36 3.757 Requirement already satisfied: requests[security]>=2.18.4 in /usr/lib/python3/dist-packages (from cert-issuer) (2.22.0)
+#36 4.052 Collecting pyld==1.0.5
+#36 4.058   Downloading PyLD-1.0.5.tar.gz (52 kB)
+#36 4.317 Collecting cert-core>=3.0.0
+#36 4.322   Downloading cert_core-3.0.0-py3-none-any.whl (15 kB)
+#36 4.566 Collecting glob2==0.6
+#36 4.570   Downloading glob2-0.6.tar.gz (10 kB)
+#36 5.052 Collecting python-bitcoinlib>=0.10.1
+#36 5.059   Downloading python_bitcoinlib-0.12.2-py3-none-any.whl (106 kB)
+#36 5.229 Collecting configargparse==0.13.0
+#36 5.235   Downloading ConfigArgParse-0.13.0.tar.gz (31 kB)
+#36 5.727 Collecting pysha3>=1.0.2
+#36 5.736   Downloading pysha3-1.0.2.tar.gz (829 kB)
+#36 6.195 Requirement already satisfied: six>=1.9 in /usr/lib/python3/dist-packages (from mock==2.0.0->cert-issuer) (1.14.0)
+#36 6.287 Collecting pbr>=0.11
+#36 6.292   Downloading pbr-5.11.1-py2.py3-none-any.whl (112 kB)
+#36 6.365 Collecting colorama>=0.4.6
+#36 6.369   Downloading colorama-0.4.6-py2.py3-none-any.whl (25 kB)
+#36 6.542 Collecting virtualenv>=20.23.1
+#36 6.549   Downloading virtualenv-20.24.2-py3-none-any.whl (3.0 MB)
+#36 6.805 Collecting filelock>=3.12.2
+#36 6.809   Downloading filelock-3.12.2-py3-none-any.whl (10 kB)
+#36 6.895 Collecting platformdirs>=3.8
+#36 6.901   Downloading platformdirs-3.10.0-py3-none-any.whl (17 kB)
+#36 6.971 Collecting pluggy>=1.2
+#36 6.976   Downloading pluggy-1.2.0-py3-none-any.whl (17 kB)
+#36 7.065 Collecting packaging>=23.1
+#36 7.070   Downloading packaging-23.1-py3-none-any.whl (48 kB)
+#36 7.137 Collecting tomli>=2.0.1; python_version < "3.11"
+#36 7.143   Downloading tomli-2.0.1-py3-none-any.whl (12 kB)
+#36 7.191 Collecting chardet>=5.1
+#36 7.198   Downloading chardet-5.2.0-py3-none-any.whl (199 kB)
+#36 7.284 Collecting pyproject-api>=1.5.2
+#36 7.293   Downloading pyproject_api-1.5.3-py3-none-any.whl (12 kB)
+#36 7.372 Collecting cachetools>=5.3.1
+#36 7.376   Downloading cachetools-5.3.1-py3-none-any.whl (9.3 kB)
+#36 7.636 Collecting py-multibase>=1.0.1
+#36 7.657   Downloading py_multibase-1.0.3-py2.py3-none-any.whl (6.4 kB)
+#36 8.026 Collecting cbor2>=4.1.2
+#36 8.033   Downloading cbor2-5.4.6-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (236 kB)
+#36 8.121 Collecting werkzeug<2.3,>=1.0
+#36 8.127   Downloading Werkzeug-2.2.3-py3-none-any.whl (233 kB)
+#36 8.192 Collecting clickclick<21,>=1.2
+#36 8.196   Downloading clickclick-20.10.2-py2.py3-none-any.whl (7.4 kB)
+#36 8.261 Collecting flask<2.3,>=1.0.4
+#36 8.267   Downloading Flask-2.2.5-py3-none-any.whl (101 kB)
+#36 8.551 Collecting inflection<0.6,>=0.3.1
+#36 8.555   Downloading inflection-0.5.1-py2.py3-none-any.whl (9.5 kB)
+#36 8.600 Collecting itsdangerous>=0.24
+#36 8.604   Downloading itsdangerous-2.1.2-py3-none-any.whl (15 kB)
+#36 8.713 Collecting PyYAML<7,>=5.1
+#36 8.718   Downloading PyYAML-6.0.1-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (736 kB)
+#36 8.809 Collecting validators>=0.12.1
+#36 8.822   Downloading validators-0.20.0.tar.gz (30 kB)
+#36 9.814 Collecting cryptography>=1.3.4
+#36 9.824   Downloading cryptography-41.0.3-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (4.3 MB)
+#36 10.22 Requirement already satisfied: idna>=2.0.0 in /usr/lib/python3/dist-packages (from requests[security]>=2.18.4->cert-issuer) (2.8)
+#36 10.26 Collecting pyOpenSSL>=0.14
+#36 10.27   Downloading pyOpenSSL-23.2.0-py3-none-any.whl (59 kB)
+#36 10.51 Collecting simplekv>=0.10.0
+#36 10.53   Downloading simplekv-0.14.1-py3-none-any.whl (31 kB)
+#36 10.82 Collecting Flask-PyMongo>=0.5.1
+#36 10.83   Downloading Flask_PyMongo-2.3.0-py2.py3-none-any.whl (12 kB)
+#36 10.99 Collecting pytz>=2017.2
+#36 10.99   Downloading pytz-2023.3-py2.py3-none-any.whl (502 kB)
+#36 11.15 Collecting python-dateutil>=2.6.1
+#36 11.16   Downloading python_dateutil-2.8.2-py2.py3-none-any.whl (247 kB)
+#36 11.22 Collecting distlib<1,>=0.3.7
+#36 11.23   Downloading distlib-0.3.7-py2.py3-none-any.whl (468 kB)
+#36 11.58 Collecting morphys<2.0,>=1.0
+#36 11.58   Downloading morphys-1.0-py2.py3-none-any.whl (5.6 kB)
+#36 11.87 Collecting python-baseconv<2.0,>=1.2.0
+#36 11.89   Downloading python-baseconv-1.2.2.tar.gz (4.9 kB)
+#36 12.28 Collecting MarkupSafe>=2.1.1
+#36 12.29   Downloading MarkupSafe-2.1.3-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (25 kB)
+#36 12.36 Collecting click>=4.0
+#36 12.37   Downloading click-8.1.6-py3-none-any.whl (97 kB)
+#36 12.48 Collecting importlib-metadata>=3.6.0; python_version < "3.10"
+#36 12.49   Downloading importlib_metadata-6.8.0-py3-none-any.whl (22 kB)
+#36 12.58 Collecting Jinja2>=3.0
+#36 12.58   Downloading Jinja2-3.1.2-py3-none-any.whl (133 kB)
+#36 12.75 Collecting decorator>=3.4.0
+#36 12.75   Downloading decorator-5.1.1-py3-none-any.whl (9.1 kB)
+#36 13.10 Collecting cffi>=1.12
+#36 13.11   Downloading cffi-1.15.1-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (442 kB)
+#36 13.97 Collecting PyMongo>=3.3
+#36 13.98   Downloading pymongo-4.4.1-cp38-cp38-manylinux2014_x86_64.whl (641 kB)
+#36 14.18 Collecting zipp>=0.5
+#36 14.19   Downloading zipp-3.16.2-py3-none-any.whl (7.2 kB)
+#36 14.31 Collecting pycparser
+#36 14.32   Downloading pycparser-2.21-py2.py3-none-any.whl (118 kB)
+#36 14.37 Collecting dnspython<3.0.0,>=1.16.0
+#36 14.37   Downloading dnspython-2.4.1-py3-none-any.whl (300 kB)
+#36 14.53 Building wheels for collected packages: merkletools, pycoin, pyld, glob2, configargparse, pysha3, validators, python-baseconv
+#36 14.53   Building wheel for merkletools (setup.py): started
+#36 14.86   Building wheel for merkletools (setup.py): finished with status 'done'
+#36 14.86   Created wheel for merkletools: filename=merkletools-1.0.3-py3-none-any.whl size=5909 sha256=387f0fd982213647dfbfffda1cb3dc351f48c499353b1df84ae6ae6c022333d5
+#36 14.86   Stored in directory: /root/.cache/pip/wheels/b3/86/d3/3314b01697d92937a60e9d178f19cb640ac92041d3cfd55ae6
+#36 14.86   Building wheel for pycoin (setup.py): started
+#36 15.19   Building wheel for pycoin (setup.py): finished with status 'done'
+#36 15.19   Created wheel for pycoin: filename=pycoin-0.80-py3-none-any.whl size=141178 sha256=3cc8c5af45e91dbca330976f0ba47f53f597a018ce64f5d4f431602e1af24b0d
+#36 15.19   Stored in directory: /root/.cache/pip/wheels/46/9b/5e/50670f6417c3a2cc50a5a1d244c405959fce7a75bdb19690e9
+#36 15.19   Building wheel for pyld (setup.py): started
+#36 15.46   Building wheel for pyld (setup.py): finished with status 'done'
+#36 15.46   Created wheel for pyld: filename=PyLD-1.0.5-py3-none-any.whl size=53683 sha256=f57b0a27aca83dda1dc0c5d8452c0db676e702215e934eb0e0f120480d176b79
+#36 15.46   Stored in directory: /root/.cache/pip/wheels/11/1c/30/136ea33257f7015f252f9ba3c56ba62a95a82e8096900d6e76
+#36 15.46   Building wheel for glob2 (setup.py): started
+#36 15.79   Building wheel for glob2 (setup.py): finished with status 'done'
+#36 15.79   Created wheel for glob2: filename=glob2-0.6-py2.py3-none-any.whl size=9304 sha256=32f38db3a5187de9dea1fbf96b25cf71e1c59aea02bf767b7c8d86c682e88afb
+#36 15.79   Stored in directory: /root/.cache/pip/wheels/40/d3/1d/a05d674b81f7187dfd429cb07103815dcfd8bce1abd09898e2
+#36 15.79   Building wheel for configargparse (setup.py): started
+#36 16.11   Building wheel for configargparse (setup.py): finished with status 'done'
+#36 16.11   Created wheel for configargparse: filename=ConfigArgParse-0.13.0-py3-none-any.whl size=17569 sha256=4296034a7862bc64b55080a0c38468b10fa0665594edf01afa1641b85211d325
+#36 16.11   Stored in directory: /root/.cache/pip/wheels/1c/05/8f/0d08c0679d25c00f0a1fc8419c9227f91618299d0b63d612d9
+#36 16.11   Building wheel for pysha3 (setup.py): started
+#36 19.85   Building wheel for pysha3 (setup.py): finished with status 'done'
+#36 19.85   Created wheel for pysha3: filename=pysha3-1.0.2-cp38-cp38-linux_x86_64.whl size=152085 sha256=65a1096f0ca36489e25d471dc3d290feab1679f3306cd32800b2c1adcd8c4189
+#36 19.85   Stored in directory: /root/.cache/pip/wheels/ee/35/47/386d23587167a3b03fc702b6be1ff60c92fddbeef125873088
+#36 19.85   Building wheel for validators (setup.py): started
+#36 20.18   Building wheel for validators (setup.py): finished with status 'done'
+#36 20.18   Created wheel for validators: filename=validators-0.20.0-py3-none-any.whl size=19565 sha256=15c53377e955546240f42cb2ad16aa0947a90884c5c5d3cac91715c170fbe014
+#36 20.18   Stored in directory: /root/.cache/pip/wheels/19/09/72/3eb74d236bb48bd0f3c6c3c83e4e0c5bbfcbcad7c6c3539db8
+#36 20.19   Building wheel for python-baseconv (setup.py): started
+#36 20.44   Building wheel for python-baseconv (setup.py): finished with status 'done'
+#36 20.44   Created wheel for python-baseconv: filename=python_baseconv-1.2.2-py3-none-any.whl size=5498 sha256=c551c4f82ed18888b9b94f2815b32221bf3a2e1a41b01535c57e3a79392e7b9c
+#36 20.44   Stored in directory: /root/.cache/pip/wheels/5a/9d/e7/733036bce4db3c7cb862fa87acb47515e2d811b3f2b99bd5d8
+#36 20.44 Successfully built merkletools pycoin pyld glob2 configargparse pysha3 validators python-baseconv
+#36 20.73 Installing collected packages: pysha3, merkletools, pycoin, pbr, mock, colorama, platformdirs, filelock, distlib, virtualenv, pluggy, packaging, tomli, chardet, pyproject-api, cachetools, tox, morphys, python-baseconv, py-multibase, cbor2, lds-merkle-proof-2019, jsonschema, MarkupSafe, werkzeug, PyYAML, click, clickclick, zipp, importlib-metadata, Jinja2, itsdangerous, flask, inflection, connexion, pyld, decorator, validators, cert-schema, configargparse, simplekv, dnspython, PyMongo, Flask-PyMongo, pytz, python-dateutil, cert-core, glob2, python-bitcoinlib, cert-issuer, pycparser, cffi, cryptography, pyOpenSSL
+#36 21.45   Attempting uninstall: chardet
+#36 21.45     Found existing installation: chardet 3.0.4
+#36 21.45     Not uninstalling chardet at /usr/lib/python3/dist-packages, outside environment /usr
+#36 21.45     Can't uninstall 'chardet'. No files were found to uninstall.
+#36 24.30 Successfully installed Flask-PyMongo-2.3.0 Jinja2-3.1.2 MarkupSafe-2.1.3 PyMongo-4.4.1 PyYAML-6.0.1 cachetools-5.3.1 cbor2-5.4.6 cert-core-3.0.0 cert-issuer-3.5.0 cert-schema-3.4.2 cffi-1.15.1 chardet-5.2.0 click-8.1.6 clickclick-20.10.2 colorama-0.4.6 configargparse-0.13.0 connexion-2.14.2 cryptography-41.0.3 decorator-5.1.1 distlib-0.3.7 dnspython-2.4.1 filelock-3.12.2 flask-2.2.5 glob2-0.6 importlib-metadata-6.8.0 inflection-0.5.1 itsdangerous-2.1.2 jsonschema-2.6.0 lds-merkle-proof-2019-0.1.0 merkletools-1.0.3 mock-2.0.0 morphys-1.0 packaging-23.1 pbr-5.11.1 platformdirs-3.10.0 pluggy-1.2.0 py-multibase-1.0.3 pyOpenSSL-23.2.0 pycoin-0.80 pycparser-2.21 pyld-1.0.5 pyproject-api-1.5.3 pysha3-1.0.2 python-baseconv-1.2.2 python-bitcoinlib-0.12.2 python-dateutil-2.8.2 pytz-2023.3 simplekv-0.14.1 tomli-2.0.1 tox-4.6.4 validators-0.20.0 virtualenv-20.24.2 werkzeug-2.2.3 zipp-3.16.2
+#36 DONE 25.0s
+
+#37 [33/46] RUN pip3 install -r requirements.txt
+#37 1.663 Requirement already satisfied: cert-core>=3.0.0 in /usr/local/lib/python3.8/dist-packages (from -r requirements.txt (line 1)) (3.0.0)
+#37 1.674 Requirement already satisfied: cert-schema>=3.2.1 in /usr/local/lib/python3.8/dist-packages (from -r requirements.txt (line 2)) (3.4.2)
+#37 1.678 Requirement already satisfied: merkletools==1.0.3 in /usr/local/lib/python3.8/dist-packages (from -r requirements.txt (line 3)) (1.0.3)
+#37 1.681 Requirement already satisfied: configargparse==0.13.0 in /usr/local/lib/python3.8/dist-packages (from -r requirements.txt (line 4)) (0.13.0)
+#37 1.684 Requirement already satisfied: glob2==0.6 in /usr/local/lib/python3.8/dist-packages (from -r requirements.txt (line 5)) (0.6)
+#37 1.685 Requirement already satisfied: mock==2.0.0 in /usr/local/lib/python3.8/dist-packages (from -r requirements.txt (line 6)) (2.0.0)
+#37 1.698 Requirement already satisfied: requests[security]>=2.18.4 in /usr/lib/python3/dist-packages (from -r requirements.txt (line 7)) (2.22.0)
+#37 1.705 Requirement already satisfied: pycoin==0.80 in /usr/local/lib/python3.8/dist-packages (from -r requirements.txt (line 8)) (0.80)
+#37 1.706 Requirement already satisfied: pyld==1.0.5 in /usr/local/lib/python3.8/dist-packages (from -r requirements.txt (line 9)) (1.0.5)
+#37 1.710 Requirement already satisfied: pysha3>=1.0.2 in /usr/local/lib/python3.8/dist-packages (from -r requirements.txt (line 10)) (1.0.2)
+#37 1.713 Requirement already satisfied: python-bitcoinlib>=0.10.1 in /usr/local/lib/python3.8/dist-packages (from -r requirements.txt (line 11)) (0.12.2)
+#37 1.714 Requirement already satisfied: tox>=3.0.0 in /usr/local/lib/python3.8/dist-packages (from -r requirements.txt (line 12)) (4.6.4)
+#37 1.748 Requirement already satisfied: jsonschema<3.0.0 in /usr/local/lib/python3.8/dist-packages (from -r requirements.txt (line 13)) (2.6.0)
+#37 1.753 Requirement already satisfied: lds-merkle-proof-2019>=0.1.0 in /usr/local/lib/python3.8/dist-packages (from -r requirements.txt (line 14)) (0.1.0)
+#37 1.757 Requirement already satisfied: connexion<3.0.0 in /usr/local/lib/python3.8/dist-packages (from -r requirements.txt (line 15)) (2.14.2)
+#37 1.791 Requirement already satisfied: simplekv>=0.10.0 in /usr/local/lib/python3.8/dist-packages (from cert-core>=3.0.0->-r requirements.txt (line 1)) (0.14.1)
+#37 1.793 Requirement already satisfied: validators>=0.12.1 in /usr/local/lib/python3.8/dist-packages (from cert-core>=3.0.0->-r requirements.txt (line 1)) (0.20.0)
+#37 1.800 Requirement already satisfied: pytz>=2017.2 in /usr/local/lib/python3.8/dist-packages (from cert-core>=3.0.0->-r requirements.txt (line 1)) (2023.3)
+#37 1.803 Requirement already satisfied: python-dateutil>=2.6.1 in /usr/local/lib/python3.8/dist-packages (from cert-core>=3.0.0->-r requirements.txt (line 1)) (2.8.2)
+#37 1.808 Requirement already satisfied: Flask-PyMongo>=0.5.1 in /usr/local/lib/python3.8/dist-packages (from cert-core>=3.0.0->-r requirements.txt (line 1)) (2.3.0)
+#37 1.810 Requirement already satisfied: pbr>=0.11 in /usr/local/lib/python3.8/dist-packages (from mock==2.0.0->-r requirements.txt (line 6)) (5.11.1)
+#37 1.814 Requirement already satisfied: six>=1.9 in /usr/lib/python3/dist-packages (from mock==2.0.0->-r requirements.txt (line 6)) (1.14.0)
+#37 1.817 Requirement already satisfied: cryptography>=1.3.4 in /usr/local/lib/python3.8/dist-packages (from requests[security]>=2.18.4->-r requirements.txt (line 7)) (41.0.3)
+#37 1.834 Requirement already satisfied: idna>=2.0.0 in /usr/lib/python3/dist-packages (from requests[security]>=2.18.4->-r requirements.txt (line 7)) (2.8)
+#37 1.837 Requirement already satisfied: pyOpenSSL>=0.14 in /usr/local/lib/python3.8/dist-packages (from requests[security]>=2.18.4->-r requirements.txt (line 7)) (23.2.0)
+#37 1.845 Requirement already satisfied: virtualenv>=20.23.1 in /usr/local/lib/python3.8/dist-packages (from tox>=3.0.0->-r requirements.txt (line 12)) (20.24.2)
+#37 1.897 Requirement already satisfied: cachetools>=5.3.1 in /usr/local/lib/python3.8/dist-packages (from tox>=3.0.0->-r requirements.txt (line 12)) (5.3.1)
+#37 1.902 Requirement already satisfied: pyproject-api>=1.5.2 in /usr/local/lib/python3.8/dist-packages (from tox>=3.0.0->-r requirements.txt (line 12)) (1.5.3)
+#37 1.931 Requirement already satisfied: chardet>=5.1 in /usr/local/lib/python3.8/dist-packages (from tox>=3.0.0->-r requirements.txt (line 12)) (5.2.0)
+#37 1.933 Requirement already satisfied: packaging>=23.1 in /usr/local/lib/python3.8/dist-packages (from tox>=3.0.0->-r requirements.txt (line 12)) (23.1)
+#37 1.936 Requirement already satisfied: colorama>=0.4.6 in /usr/local/lib/python3.8/dist-packages (from tox>=3.0.0->-r requirements.txt (line 12)) (0.4.6)
+#37 1.939 Requirement already satisfied: tomli>=2.0.1; python_version < "3.11" in /usr/local/lib/python3.8/dist-packages (from tox>=3.0.0->-r requirements.txt (line 12)) (2.0.1)
+#37 1.941 Requirement already satisfied: pluggy>=1.2 in /usr/local/lib/python3.8/dist-packages (from tox>=3.0.0->-r requirements.txt (line 12)) (1.2.0)
+#37 1.948 Requirement already satisfied: filelock>=3.12.2 in /usr/local/lib/python3.8/dist-packages (from tox>=3.0.0->-r requirements.txt (line 12)) (3.12.2)
+#37 1.969 Requirement already satisfied: platformdirs>=3.8 in /usr/local/lib/python3.8/dist-packages (from tox>=3.0.0->-r requirements.txt (line 12)) (3.10.0)
+#37 1.992 Requirement already satisfied: py-multibase>=1.0.1 in /usr/local/lib/python3.8/dist-packages (from lds-merkle-proof-2019>=0.1.0->-r requirements.txt (line 14)) (1.0.3)
+#37 1.997 Requirement already satisfied: cbor2>=4.1.2 in /usr/local/lib/python3.8/dist-packages (from lds-merkle-proof-2019>=0.1.0->-r requirements.txt (line 14)) (5.4.6)
+#37 2.005 Requirement already satisfied: itsdangerous>=0.24 in /usr/local/lib/python3.8/dist-packages (from connexion<3.0.0->-r requirements.txt (line 15)) (2.1.2)
+#37 2.007 Requirement already satisfied: werkzeug<2.3,>=1.0 in /usr/local/lib/python3.8/dist-packages (from connexion<3.0.0->-r requirements.txt (line 15)) (2.2.3)
+#37 2.025 Requirement already satisfied: flask<2.3,>=1.0.4 in /usr/local/lib/python3.8/dist-packages (from connexion<3.0.0->-r requirements.txt (line 15)) (2.2.5)
+#37 2.035 Requirement already satisfied: PyYAML<7,>=5.1 in /usr/local/lib/python3.8/dist-packages (from connexion<3.0.0->-r requirements.txt (line 15)) (6.0.1)
+#37 2.038 Requirement already satisfied: clickclick<21,>=1.2 in /usr/local/lib/python3.8/dist-packages (from connexion<3.0.0->-r requirements.txt (line 15)) (20.10.2)
+#37 2.041 Requirement already satisfied: inflection<0.6,>=0.3.1 in /usr/local/lib/python3.8/dist-packages (from connexion<3.0.0->-r requirements.txt (line 15)) (0.5.1)
+#37 2.043 Requirement already satisfied: decorator>=3.4.0 in /usr/local/lib/python3.8/dist-packages (from validators>=0.12.1->cert-core>=3.0.0->-r requirements.txt (line 1)) (5.1.1)
+#37 2.045 Requirement already satisfied: PyMongo>=3.3 in /usr/local/lib/python3.8/dist-packages (from Flask-PyMongo>=0.5.1->cert-core>=3.0.0->-r requirements.txt (line 1)) (4.4.1)
+#37 2.058 Requirement already satisfied: cffi>=1.12 in /usr/local/lib/python3.8/dist-packages (from cryptography>=1.3.4->requests[security]>=2.18.4->-r requirements.txt (line 7)) (1.15.1)
+#37 2.061 Requirement already satisfied: distlib<1,>=0.3.7 in /usr/local/lib/python3.8/dist-packages (from virtualenv>=20.23.1->tox>=3.0.0->-r requirements.txt (line 12)) (0.3.7)
+#37 2.063 Requirement already satisfied: python-baseconv<2.0,>=1.2.0 in /usr/local/lib/python3.8/dist-packages (from py-multibase>=1.0.1->lds-merkle-proof-2019>=0.1.0->-r requirements.txt (line 14)) (1.2.2)
+#37 2.065 Requirement already satisfied: morphys<2.0,>=1.0 in /usr/local/lib/python3.8/dist-packages (from py-multibase>=1.0.1->lds-merkle-proof-2019>=0.1.0->-r requirements.txt (line 14)) (1.0)
+#37 2.068 Requirement already satisfied: MarkupSafe>=2.1.1 in /usr/local/lib/python3.8/dist-packages (from werkzeug<2.3,>=1.0->connexion<3.0.0->-r requirements.txt (line 15)) (2.1.3)
+#37 2.069 Requirement already satisfied: click>=8.0 in /usr/local/lib/python3.8/dist-packages (from flask<2.3,>=1.0.4->connexion<3.0.0->-r requirements.txt (line 15)) (8.1.6)
+#37 2.074 Requirement already satisfied: importlib-metadata>=3.6.0; python_version < "3.10" in /usr/local/lib/python3.8/dist-packages (from flask<2.3,>=1.0.4->connexion<3.0.0->-r requirements.txt (line 15)) (6.8.0)
+#37 2.097 Requirement already satisfied: Jinja2>=3.0 in /usr/local/lib/python3.8/dist-packages (from flask<2.3,>=1.0.4->connexion<3.0.0->-r requirements.txt (line 15)) (3.1.2)
+#37 2.101 Requirement already satisfied: dnspython<3.0.0,>=1.16.0 in /usr/local/lib/python3.8/dist-packages (from PyMongo>=3.3->Flask-PyMongo>=0.5.1->cert-core>=3.0.0->-r requirements.txt (line 1)) (2.4.1)
+#37 2.112 Requirement already satisfied: pycparser in /usr/local/lib/python3.8/dist-packages (from cffi>=1.12->cryptography>=1.3.4->requests[security]>=2.18.4->-r requirements.txt (line 7)) (2.21)
+#37 2.114 Requirement already satisfied: zipp>=0.5 in /usr/local/lib/python3.8/dist-packages (from importlib-metadata>=3.6.0; python_version < "3.10"->flask<2.3,>=1.0.4->connexion<3.0.0->-r requirements.txt (line 15)) (3.16.2)
+#37 DONE 2.3s
+
+#38 [34/46] RUN sed -i.bak "s/<issuing-address>/<issuing-address>/g" /etc/cert-issuer/conf.ini
+#38 DONE 0.3s
+
+#39 [35/46] WORKDIR /root
+#39 DONE 0.0s
+
+#40 [36/46] RUN uwsgi --build-plugin "/usr/src/uwsgi/plugins/python python36"
+#40 ERROR: process "/bin/sh -c uwsgi --build-plugin \"/usr/src/uwsgi/plugins/python python36\"" did not complete successfully: exit code: 1
+------
+ > [36/46] RUN uwsgi --build-plugin "/usr/src/uwsgi/plugins/python python36":
+------
+Dockerfile.web:62
+--------------------
+  60 |     ENV PYTHON python3.6
+  61 |     WORKDIR /root
+  62 | >>> RUN uwsgi --build-plugin "/usr/src/uwsgi/plugins/python python36"
+  63 |     RUN cp /root/python36_plugin.so /cert-issuer
+  64 |     RUN chmod 644 /cert-issuer/python36_plugin.so
+--------------------
+ERROR: failed to solve: process "/bin/sh -c uwsgi --build-plugin \"/usr/src/uwsgi/plugins/python python36\"" did not complete successfully: exit code: 1
